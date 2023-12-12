@@ -46,7 +46,7 @@ function container_stat () {
     elif [[ ${CMEM%.*} -ge 0 || ${CCPU%.*} -ge 0 ]]; then
         echo "OK - Docker container '$CONT' CPU: $CCPU MEM: $CMEM"
     else
-            echo "UNKNOWN - Docker container '$CONT'"
+        echo "UNKNOWN - Docker container '$CONT'"
     fi
 }
 
@@ -54,8 +54,7 @@ function container_stat () {
 if [[ -z "$1" ]]; then
     echo -e "check docker container statistics\n\tUsage:\
     `basename $0` <container-name> [<container-name>...<container-name>]\n
-    \tmissing container name
-            "
+    \tmissing container name"
     exit 3
 else
      CSTAT=""
