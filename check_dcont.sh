@@ -15,7 +15,7 @@
 #       1..n: docker container name
 #
 # Examples:
-#       $ bash check_dcont.sh container-psql
+#       $ bash check_dcont.sh fubar-one
 #       (check single docker container)
 #
 #       check_nrpe -H $HOSTADDRESS$ -c check_dcont -a 'fubar-one fubar-two'
