@@ -46,3 +46,36 @@ function container_stat () {
     elif [[ ${CMEM%.*} -ge 0 || ${CCPU%.*} -ge 0 ]]; then
         echo "OK - Docker container '$CONT' CPU: $CCPU MEM: $CMEM"
     else
+            echo "UNKNOWN - Docker container '$CONT'"
+    fi
+}
+
+# BEGIN __main__
+if [[ -z "$1" ]]; then
+    echo -e "check docker container statistics\n\tUsage:\
+    `basename $0` <container-name> [<container-name>...<container-name>]\n
+    \tmissing container name
+            "
+    exit 3
+else
+     CSTAT=""
+fi
+
+# Loop thru args to get status
+for (( i=1; i<=$#; i++ )); do
+    CSTAT="${CSTAT}${i}: $(container_stat ${@:i:1})\n"
+done
+
+# Status excl. line feed
+echo -e ${CSTAT%??}
+
+# Apply exit code corresponding to container stat message
+if [[ -n $(echo -e $CSTAT|grep -om 1 "UNKNOWN") ]]; then
+    exit 3
+elif [[ -n $(echo -e $CSTAT|grep -om 1 "CRITICAL") ]]; then
+    exit 2
+elif [[ -n $(echo -e $CSTAT|grep -om 1 "WARNING") ]]; then
+    exit 1
+else
+    exit 0
+fi
