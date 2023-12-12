@@ -18,7 +18,7 @@
 #       $ bash check_dcont.sh container-psql
 #       (check single docker container)
 #
-#       check_nrpe -H $HOSTADDRESS$ -c check_dcont -a 'container-psql container-redis'
+#       check_nrpe -H $HOSTADDRESS$ -c check_dcont -a 'fubar-one fubar-two'
 #       (nagios monitor line for two containers)
 #
 function container_stat () {
