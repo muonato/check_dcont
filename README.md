@@ -30,13 +30,13 @@ $ ./check_dcont.sh foo-bar
 Check statistics of two containers
 
 ```
-$ ./check_dcont.sh foo-bar fubar
-1: OK - Docker container 'foo-bar' CPU: 0.12% MEM: 0.41%
-2: WARNING - Docker container 'fubar' CPU: 0.05% MEM: 62.8%
+$ ./check_dcont.sh fubar-one fubar-two
+1: OK - Docker container 'fubar-one' CPU: 0.12% MEM: 0.41%
+2: WARNING - Docker container 'fubar-two' CPU: 0.05% MEM: 62.8%
 ```
 Check non-existent container
 
 ```
-$ ./check_dcont.sh dokker
-1: UNKNOWN - Docker container 'dokker'
+$ ./check_dcont.sh foo-bar
+1: CRITICAL - Docker container 'foo-bar' statistics failed
 ```
