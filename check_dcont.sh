@@ -61,7 +61,7 @@ else
      CSTAT=""
 fi
 
-# Loop thru args for status
+# Loop args for status message
 for (( i=1; i<=$#; i++ )); do
     CSTAT="${CSTAT}${i}: $(container_stat ${@:i:1})\n"
 done
@@ -69,7 +69,7 @@ done
 # Status excl. line feed
 echo -e ${CSTAT%??}
 
-# Apply exit code corresponding to container stat message
+# Apply exit code corresponding to status message
 if [[ -n $(echo -e $CSTAT|grep -om 1 "UNKNOWN") ]]; then
     exit 3
 elif [[ -n $(echo -e $CSTAT|grep -om 1 "CRITICAL") ]]; then
