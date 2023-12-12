@@ -61,7 +61,7 @@ else
      CSTAT=""
 fi
 
-# Loop thru args to get status
+# Loop thru args for status
 for (( i=1; i<=$#; i++ )); do
     CSTAT="${CSTAT}${i}: $(container_stat ${@:i:1})\n"
 done
