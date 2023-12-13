@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# muonato/check_dcont.sh @ GitHub (12-DEC-2023)
+# muonato/check_dcont.sh @ GitHub (13-DEC-2023)
 #
 # Reports container statistics using docker stat,
 # compatible with Nagios monitoring as host plugin
