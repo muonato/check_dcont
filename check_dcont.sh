@@ -40,11 +40,11 @@ function container_stat () {
     if [[ -z "$CMEM" || -z "$CCPU" ]]; then
         echo "CRITICAL - Docker container '$CONT' statistics failed"
     elif [[ ${CMEM%.*} -ge 90 || ${CCPU%.*} -ge 90 ]]; then
-        echo "CRITICAL - Docker container '$CONT' CPU: $CCPU MEM: $CMEM"
+        echo "CRITICAL - Docker container '$CONT' CPU: $CCPU% MEM: $CMEM%"
     elif [[ ${CMEM%.*} -ge 70 || ${CCPU%.*} -ge 70 ]]; then
-        echo "WARNING - Docker container '$CONT' CPU: $CCPU MEM: $CMEM"
+        echo "WARNING - Docker container '$CONT' CPU: $CCPU% MEM: $CMEM%"
     elif [[ ${CMEM%.*} -ge 0 || ${CCPU%.*} -ge 0 ]]; then
-        echo "OK - Docker container '$CONT' CPU: $CCPU MEM: $CMEM"
+        echo "OK - Docker container '$CONT' CPU: $CCPU% MEM: $CMEM%"
     else
         echo "UNKNOWN - Docker container '$CONT'"
     fi
