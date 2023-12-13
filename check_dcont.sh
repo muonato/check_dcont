@@ -19,7 +19,7 @@
 #       (check single docker container)
 #
 #       check_nrpe -H $HOSTADDRESS$ -c check_dcont -a 'fubar-one fubar-two'
-#       (nagios monitor line for two containers)
+#       (nagios monitor expression for two containers)
 #
 function container_stat () {
     # Assign fn arguments
