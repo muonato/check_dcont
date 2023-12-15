@@ -49,6 +49,7 @@ Script development and testing
 
 ```
 Red Hat Enterprise Linux 8.9 (Ootpa)
+GNU bash, version 4.4.20(1)-release (x86_64-redhat-linux-gnu)
 Docker version 24.0.7
 Opsview Core 3.20140409.0
 
