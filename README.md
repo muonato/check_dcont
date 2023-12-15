@@ -10,9 +10,13 @@ check_dcont.sh <container-name> [<container-name>] ...
 Specify command in your nrpe configuration file on host
 
 ```
-command[check_dcont]=/path/to/plugins/check_dcont.sh $ARG1$
+command[check_dcont]=sudo /path/to/plugins/check_dcont.sh $ARG1$
 ```
+Specify sudo right to Opsview user group ( where applicable )
 
+```
+opsview ALL=NOPASSWD:/path/to/plugins/check_dcont
+```
 Set command on your nagios monitoring server
 
 ```
@@ -39,4 +43,13 @@ Check non-existent container
 ```
 $ ./check_dcont.sh foo-bar
 1: CRITICAL - Docker container 'foo-bar' statistics failed
+```
+## Platform
+Script development and testing
+
+```
+Red Hat Enterprise Linux 8.9 (Ootpa)
+Docker version 24.0.7
+Opsview Core 3.20140409.0
+
 ```
