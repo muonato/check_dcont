@@ -17,10 +17,10 @@ Specify sudo right to Opsview user group ( where applicable )
 ```
 opsview ALL=NOPASSWD:/path/to/plugins/check_dcont
 ```
-Set command on your nagios monitoring server
+Set command on your nagios monitoring server, allow for lengthy timeout
 
 ```
-check_nrpe -H $HOSTADDRESS$ -c check_dcont -a '<container-name>'
+check_nrpe -H $HOSTADDRESS$ -t 300 -c check_dcont -a '<container-name>'
 ```
 
 ## Examples
