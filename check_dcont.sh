@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
-# muonato/check_dcont.sh @ GitHub (13-DEC-2023)
+# muonato/check_dcont.sh @ GitHub (15-DEC-2023)
 #
 # Reports container statistics using docker stat,
 # compatible with Nagios monitoring as host plugin
@@ -9,34 +9,43 @@
 #       bash check_dcont.sh <container-name> [<container-name>] ...
 #
 #       Nagios nrpe configuration on host :
-#       command[check_dcont]=/path/to/plugins/check_dcont.sh $ARG1$
+#       command[check_dcont]=sudo /path/to/plugins/check_dcont.sh $ARG1$
 #
 # Parameters:
 #       1..n: docker container name
 #
 # Examples:
 #       $ bash check_dcont.sh fubar-one
-#       (check single docker container)
+#       (Check single docker container)
 #
-#       check_nrpe -H $HOSTADDRESS$ -c check_dcont -a 'fubar-one fubar-two'
-#       (nagios monitor expression for two containers)
+#       check_nrpe -H $HOSTADDRESS$ -t 300 -c check_dcont -a 'fubar-one fubar-two'
+#       (Nagios monitor expression for two containers, allow for long timeout)
+#
+#       opsview ALL=NOPASSWD:/path/to/plugins/check_dcont
+#       (Configure user group 'opsview' for sudo permissions in /etc/sudoers)
+#
+# Platform:
+#       Red Hat Enterprise Linux 8.9 (Ootpa)
+#       Docker version 24.0.7
+#       Opsview Core 3.20140409.0
 #
 function container_stat () {
-    # Assign fn arguments
+    # Container path as fn parameter
     CONT=$1
 
     # Get docker container memory stats
-    CMEM=$(sudo docker stats --format "{{.MemPerc}}" --no-stream $CONT 2>/dev/null)
+    CMEM=$(docker stats --format "{{.MemPerc}}" --no-stream $CONT 2>/dev/null)
 
     # Strip percentage
     CMEM=${CMEM%"%"}
 
     # Get docker container CPU stats
-    CCPU=$(sudo docker stats --format "{{.CPUPerc}}" --no-stream $CONT 2>/dev/null)
+    CCPU=$(docker stats --format "{{.CPUPerc}}" --no-stream $CONT 2>/dev/null)
 
     # Strip percentage
     CCPU=${CCPU%"%"}
 
+    # Status message as function output
     if [[ -z "$CMEM" || -z "$CCPU" ]]; then
         echo "CRITICAL - Docker container '$CONT' statistics failed"
     elif [[ ${CMEM%.*} -ge 90 || ${CCPU%.*} -ge 90 ]]; then
@@ -51,21 +60,23 @@ function container_stat () {
 }
 
 # BEGIN __main__
+umask 0077
+
 if [[ -z "$1" ]]; then
     echo -e "check docker container statistics\n\tUsage:\
-    `basename $0` <container-name> [<container-name>...<container-name>]\n
-    \tmissing container name"
+    `basename $0` <container-name> [<container-name>] ...\n
+    \tERROR: missing container name"
     exit 3
 else
      CSTAT=""
 fi
 
-# Loop args for status message
+# Loop args to append message
 for (( i=1; i<=$#; i++ )); do
     CSTAT="${CSTAT}${i}: $(container_stat ${@:i:1})\n"
 done
 
-# Status excl. line feed
+# Message excl. line feed
 echo -e ${CSTAT%??}
 
 # Apply exit code corresponding to status message
